@@ -10,7 +10,7 @@ npm run build
 cd dist
 
 # if you are deploying to a custom domain
-echo 'hwoa-rang.github.io' > 'decide.kro.kr'
+echo 'https://hwoa-rang.github.io/Team/' > 'decide.kro.kr'
 
 git init
 git add -A
