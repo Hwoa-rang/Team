@@ -1,6 +1,12 @@
 <template>
   <div class="main">
-    <wth-card-df></wth-card-df>
+    <v-container fluid>
+      <v-row>
+        <v-col cols="12" md="6">
+          <wth-card-df></wth-card-df>
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 
