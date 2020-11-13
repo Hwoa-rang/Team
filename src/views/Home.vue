@@ -1,12 +1,15 @@
 <template>
 	<div class="home">
-		<router-view />
+		<core-view></core-view>
 	</div>
 </template>
 
 <script>
+
 export default {
 	name: 'Home',
-	components: {},
+	components: {
+		CoreView:()=>import('../components/core/CoreView.vue')
+		},
 };
 </script>
