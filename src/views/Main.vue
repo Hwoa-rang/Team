@@ -8,6 +8,7 @@
         <!-- <v-col class="content-bottom" cols="12">
           <wth-card-df class="wth-info"></wth-card-df>
         </v-col> -->
+        <v-col cols="12" md="4"><TimeTimer></TimeTimer></v-col>
       </v-row>
     </v-container>
   </div>
@@ -19,6 +20,7 @@ export default {
   components: {
     // WthCardDf: () => import('@/components/main/WthCardDf.vue'),
     // WthCardAdd: () => import('@/components/main/WthCardAdd.vue'),
+    TimeTimer: () => import('@/components/main/TimeTimer.vue'),
   },
 };
 </script>

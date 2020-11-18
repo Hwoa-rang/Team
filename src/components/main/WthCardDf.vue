@@ -7,9 +7,6 @@
         <span>{{ locationThd }}</span>
       </div>
       <img :src="wthIcon" :alt="description" />
-      <div>
-        {{}}
-      </div>
     </div>
   </v-card>
 </template>
@@ -31,11 +28,16 @@ export default {
       return this.locations.df.region3depth;
     },
     wthIcon() {
-      return `http://openweathermap.org/img/wn/${this.wthInfo.df.weather[0].icon}@2x.png`;
+      return `http://openweathermap.org/img/wn/${this.wthInfo.df.current.weather[0].icon}@2x.png`;
     },
     description() {
-      return this.wthInfo.df.weather[0].description;
+      return this.wthInfo.df.current.weather[0].description;
     },
+  },
+  data() {
+    return {
+      isShow: false,
+    };
   },
   methods: {},
   beforeMount() {
@@ -49,7 +51,7 @@ export default {
           };
           this.$http
             .get(
-              `//api.openweathermap.org/data/2.5/weather?lat=${latLon.lat}&lon=${latLon.lon}&appid=${APP_KEY.openWth}&lang=kr`
+              `https://api.openweathermap.org/data/2.5/onecall?lat=${latLon.lat}&lon=${latLon.lon}&exclude=hourly,minutely&appid=${APP_KEY.openWth}&lang=kr`
             )
             .then((wthSrc) => {
               this.$store.commit('setWthInfo', wthSrc.data);
@@ -68,13 +70,6 @@ export default {
                 region3depth:
                   locationSrc.data.documents[0].address.region_3depth_name,
               });
-            });
-          this.$http
-            .get(
-              `https://api.openweathermap.org/data/2.5/onecall?lat=${latLon.lat}&lon=${latLon.lon}&exclude=minutely&appid=${APP_KEY.openWth}&lang=kr`
-            )
-            .then((wthDays) => {
-              console.log(wthDays.data);
             });
         },
         (error) => {
