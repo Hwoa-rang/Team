@@ -8,6 +8,9 @@
         <!-- <v-col class="content-bottom" cols="12">
           <wth-card-df class="wth-info"></wth-card-df>
         </v-col> -->
+        <v-col cols="12" md="8">
+          <v-card>asdf</v-card>
+        </v-col>
         <v-col cols="12" md="4"><TimeTimer></TimeTimer></v-col>
       </v-row>
     </v-container>
