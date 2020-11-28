@@ -1,14 +1,30 @@
 <template>
-  <v-card class="wth-card-df px-8 py-4">
-    <div class="d-flex justify-space-between align-center">
-      <div>
-        <h2>{{ locationFst }}</h2>
-        <span class="mr-2">{{ locationScd }}</span>
-        <span>{{ locationThd }}</span>
+  <div class="wth-card-df">
+    <div class="d-flex justify-center align-center py-14">
+      <div class="current-wth d-flex align-center pr-12 mr-12">
+        <div class="wth-desc-wrap mr-12">
+          <div class="day-of-week mb-4">
+            <span>오늘 - {{ dayOfWeek }}요일</span>
+          </div>
+          <div class="wth-desc mb-4">
+            <h2 class="title">{{ locationFst }} {{ locationScd }}</h2>
+            <span class="txt">{{ locationThd }}</span>
+          </div>
+          <div class="wth-temp mb-n2">{{ wthTemp }}ºC</div>
+          <div class="wth-prec-prob d-flex align-center">
+            <img class="ico" src="@/assets/umbrella.png" alt="강수확률" />
+            <span class="txt">{{ wthPrecProb }}%</span>
+          </div>
+        </div>
+        <div class="wth-img d-flex justify-center align-center">
+          <img class="ico" :src="wthIcon" :alt="description" />
+        </div>
       </div>
-      <img :src="wthIcon" :alt="description" />
+      <div class="daily-wth">
+        <Daily :wthInfo="wthInfo.df.daily"></Daily>
+      </div>
     </div>
-  </v-card>
+  </div>
 </template>
 
 <script>
@@ -18,6 +34,10 @@ export default {
   name: 'WthCardDf',
   computed: {
     ...mapState(['wthInfo', 'locations']),
+    dayOfWeek() {
+      let week = ['일', '월', '화', '수', '목', '금', '토'];
+      return week[new Date().getDay()];
+    },
     locationFst() {
       return this.locations.df.region1depth;
     },
@@ -26,6 +46,12 @@ export default {
     },
     locationThd() {
       return this.locations.df.region3depth;
+    },
+    wthTemp() {
+      return this.wthInfo.df.current.temp;
+    },
+    wthPrecProb() {
+      return this.wthInfo.df.daily[0].pop;
     },
     wthIcon() {
       return `http://openweathermap.org/img/wn/${this.wthInfo.df.current.weather[0].icon}@2x.png`;
@@ -40,6 +66,9 @@ export default {
     };
   },
   methods: {},
+  components: {
+    Daily: () => import('@/components/main/WthCardDf/Daily.vue'),
+  },
   beforeMount() {
     if (navigator.geolocation) {
       // GPS를 지원하면
@@ -51,7 +80,7 @@ export default {
           };
           this.$http
             .get(
-              `https://api.openweathermap.org/data/2.5/onecall?lat=${latLon.lat}&lon=${latLon.lon}&exclude=hourly,minutely&appid=${APP_KEY.openWth}&lang=kr`
+              `https://api.openweathermap.org/data/2.5/onecall?lat=${latLon.lat}&lon=${latLon.lon}&exclude=hourly,minutely&units=metric&appid=${APP_KEY.openWth}&lang=kr`
             )
             .then((wthSrc) => {
               this.$store.commit('setWthInfo', wthSrc.data);
@@ -85,13 +114,55 @@ export default {
       alert('GPS를 지원하지 않습니다');
     }
   },
+  mounted() {
+    let iconSize = document.querySelector('.wth-desc-wrap').clientHeight;
+    let wthImg = document.querySelector('.wth-img');
+    wthImg.style.width = iconSize + 'px';
+    wthImg.style.height = iconSize + 'px';
+  },
 };
 </script>
 
 <style lang="scss" scoped>
 .wth-card-df {
-  background: #fff;
-  color: #222;
-  border-radius: 8px;
+  background: #000;
+  .current-wth {
+    border-right: 1px solid #fff;
+    .wth-desc-wrap {
+      .day-of-week {
+        display: inline-block;
+        padding: 2px 14px 1px;
+        font-weight: bold;
+        background: #ffa21c;
+        border-radius: 24px;
+      }
+      .wth-desc {
+        .title {
+          font-size: 1.5rem;
+          font-weight: bold;
+        }
+        .txt {
+          font-size: 1rem;
+        }
+      }
+      .wth-temp {
+        font-size: 2.5rem;
+      }
+      .wth-prec-prob {
+        .txt {
+          padding: 2px 0 0 6px;
+          font-size: 1rem;
+        }
+      }
+    }
+    .wth-img {
+      background: #222;
+      border-radius: 50%;
+      .ico {
+      }
+    }
+  }
+  .daily-wth {
+  }
 }
 </style>

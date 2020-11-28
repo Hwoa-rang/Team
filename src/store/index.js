@@ -8,25 +8,46 @@ export default new Vuex.Store({
     wthInfo: {
       df: {
         current: {
-          dt: 1605677818,
-          sunrise: 1605651315,
-          sunset: 1605687611,
-          temp: 292.48,
-          feels_like: 293.12,
-          pressure: 1016,
-          humidity: 77,
-          dew_point: 288.35,
-          uvi: 2.85,
-          clouds: 90,
-          visibility: 10000,
-          wind_speed: 1.5,
-          wind_deg: 60,
+          dt: undefined,
+          sunrise: undefined,
+          sunset: undefined,
+          temp: undefined,
+          feels_like: undefined,
+          pressure: undefined,
+          humidity: undefined,
+          dew_point: undefined,
+          uvi: undefined,
+          clouds: undefined,
+          visibility: undefined,
+          wind_speed: undefined,
+          wind_deg: undefined,
           weather: [
-            { id: 500, main: 'Rain', description: '실 비', icon: '10d' },
+            {
+              id: undefined,
+              main: undefined,
+              description: undefined,
+              icon: undefined,
+            },
           ],
-          rain: { '1h': 0.34 },
+          rain: { '1h': undefined },
         },
-        daily: {},
+        daily: [
+          {
+            dt: undefined,
+            temp: {
+              min: undefined,
+            },
+            weather: [
+              {
+                id: undefined,
+                main: undefined,
+                description: undefined,
+                icon: undefined,
+              },
+            ],
+            pop: 0,
+          },
+        ],
       },
     },
     locations: {
