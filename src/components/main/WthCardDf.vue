@@ -1,7 +1,10 @@
 <template>
   <div class="wth-card-df">
-    <div class="d-flex justify-center align-center py-14">
-      <div class="current-wth d-flex align-center pr-12 mr-12">
+    <div class="d-flex justify-center align-top py-10">
+      <div
+        class="current-wth d-flex align-center pr-12 mr-12"
+        style="z-index:1;"
+      >
         <div class="wth-desc-wrap mr-12">
           <div class="day-of-week mb-4">
             <span>오늘 - {{ dayOfWeek }}요일</span>
@@ -16,12 +19,13 @@
             <span class="txt">{{ wthPrecProb }}%</span>
           </div>
         </div>
-        <div class="wth-img d-flex justify-center align-center">
+        <div class="wth-img d-flex justify-center align-center pa-12">
           <img class="ico" :src="wthIcon" :alt="description" />
+          <div class="wth-img-arc"></div>
         </div>
       </div>
-      <div class="daily-wth">
-        <Daily :wthInfo="wthInfo.df.daily"></Daily>
+      <div class="daily-wth" v-for="(item, i) in dailyWth" :key="i">
+        <Daily class="mr-10" :wthInfo="item"></Daily>
       </div>
     </div>
   </div>
@@ -51,13 +55,17 @@ export default {
       return this.wthInfo.df.current.temp;
     },
     wthPrecProb() {
-      return this.wthInfo.df.daily[0].pop;
+      return this.wthInfo.df.daily[0].pop * 100;
     },
     wthIcon() {
       return `http://openweathermap.org/img/wn/${this.wthInfo.df.current.weather[0].icon}@2x.png`;
     },
     description() {
       return this.wthInfo.df.current.weather[0].description;
+    },
+    dailyWth() {
+      let wthInfo = this.wthInfo.df.daily;
+      return wthInfo.splice(1);
     },
   },
   data() {
@@ -114,20 +122,16 @@ export default {
       alert('GPS를 지원하지 않습니다');
     }
   },
-  mounted() {
-    let iconSize = document.querySelector('.wth-desc-wrap').clientHeight;
-    let wthImg = document.querySelector('.wth-img');
-    wthImg.style.width = iconSize + 'px';
-    wthImg.style.height = iconSize + 'px';
-  },
 };
 </script>
 
 <style lang="scss" scoped>
 .wth-card-df {
-  background: #000;
+  background: rgba($color: #000, $alpha: 0.2);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
   .current-wth {
-    border-right: 1px solid #fff;
+    border-right: 1px solid rgba($color: #fff, $alpha: 0.2);
     .wth-desc-wrap {
       .day-of-week {
         display: inline-block;
@@ -156,9 +160,20 @@ export default {
       }
     }
     .wth-img {
-      background: #222;
+      position: relative;
+      overflow: hidden;
+      background: rgba($color: #000, $alpha: 0.6);
       border-radius: 50%;
       .ico {
+      }
+      .wth-img-arc {
+        position: absolute;
+        width: 150%;
+        height: 100%;
+        top: 50%;
+        z-index: -1;
+        border-radius: 50%;
+        background: #000;
       }
     }
   }

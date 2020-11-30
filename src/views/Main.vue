@@ -2,16 +2,17 @@
   <div class="main">
     <v-container class="wrapper px-6" fluid>
       <v-row>
-        <!-- <v-col class="content-top-left" cols="12" md="4">
-          <wth-card-add></wth-card-add>
-        </v-col> -->
-        <v-col cols="12" md="8">
+        <v-col class="content-left" cols="12" md="8">
+          <TodoList></TodoList>
+        </v-col>
+        <v-col class="content-right" cols="12" md="4">
           <Advice></Advice>
+          <!-- <wth-card-add></wth-card-add> -->
         </v-col>
       </v-row>
     </v-container>
     <div class="content-bottom" cols="12">
-      <wth-card-df class="wth-info"></wth-card-df>
+      <WthCardDf class="wth-info"></WthCardDf>
     </div>
   </div>
 </template>
@@ -22,6 +23,7 @@ export default {
   components: {
     WthCardDf: () => import('@/components/main/WthCardDf.vue'),
     // WthCardAdd: () => import('@/components/main/WthCardAdd.vue'),
+    TodoList: () => import('@/components/main/TodoList.vue'),
     Advice: () => import('@/components/main/Advice.vue'),
   },
 };
@@ -30,14 +32,18 @@ export default {
 <style lang="scss" scoped>
 .main {
   position: relative;
-  background: #222;
   color: rgba($color: #fff, $alpha: 0.85);
   height: 100vh;
+  background: url('../assets/background_mountain.png') no-repeat center bottom /
+    cover;
   .content-bottom {
     position: absolute;
-    z-index: 99;
     width: 100%;
     bottom: 0;
+    .frosted-glass {
+      position: absolute;
+      top: 0;
+    }
   }
   .wrapper {
   }

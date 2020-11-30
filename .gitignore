@@ -8,6 +8,10 @@ node_modules
 # config
 src/config
 
+# Firebase Hosting
+/.firebase
+.firebaserc
+firebase-debug.log
 
 # local env files
 .env.local

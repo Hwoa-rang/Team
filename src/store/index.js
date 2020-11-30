@@ -45,7 +45,7 @@ export default new Vuex.Store({
                 icon: undefined,
               },
             ],
-            pop: 0,
+            pop: undefined,
           },
         ],
       },
