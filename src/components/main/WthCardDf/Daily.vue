@@ -2,7 +2,11 @@
   <div class="daily d-flex flex-column align-center">
     <div class="day-of-week">{{ dayDate }} {{ dayOfWeek }}</div>
     <div class="wth-img d-flex justify-center align-center">
-      <img class="ico" :src="wthIcon" :alt="description" />
+      <img
+        class="ico"
+        :src="`//openweathermap.org/img/wn/${wthIcon}@2x.png`"
+        :alt="description"
+      />
     </div>
     <div class="wth-temp">{{ wthTemp }}ºC</div>
     <div class="wth-prec-prob d-flex align-center">
@@ -30,7 +34,7 @@ export default {
       return week[dateObject];
     },
     wthIcon() {
-      return `http://openweathermap.org/img/wn/${this.wthInfo.weather[0].icon}@2x.png`;
+      return this.wthInfo.weather[0].icon;
     },
     description() {
       return this.wthInfo.weather[0].description;

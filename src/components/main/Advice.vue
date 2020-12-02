@@ -1,8 +1,8 @@
 <template>
-  <div class="advice">
-    <span>
+  <div class="advice d-flex justify-center align-center pa-16">
+    <p>
       {{ advice }}
-    </span>
+    </p>
   </div>
 </template>
 
@@ -24,5 +24,11 @@ export default {
 
 <style lang="scss" scoped>
 .advice {
+  background: rgba($color: #000, $alpha: 0.6);
+  border-radius: 4px;
+  text-align: center;
+  p {
+    margin: 0;
+  }
 }
 </style>

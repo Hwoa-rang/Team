@@ -1,11 +1,11 @@
 <template>
   <div class="wth-card-df">
-    <div class="d-flex justify-center align-top py-10">
+    <div class="inner d-flex align-top py-10">
       <div
         class="current-wth d-flex align-center pr-12 mr-12"
         style="z-index:1;"
       >
-        <div class="wth-desc-wrap mr-12">
+        <div class="wth-desc-wrap">
           <div class="day-of-week mb-4">
             <span>오늘 - {{ dayOfWeek }}요일</span>
           </div>
@@ -20,12 +20,16 @@
           </div>
         </div>
         <div class="wth-img d-flex justify-center align-center pa-12">
-          <img class="ico" :src="wthIcon" :alt="description" />
+          <img
+            class="ico"
+            :src="`//openweathermap.org/img/wn/${wthIcon}@2x.png`"
+            :alt="description"
+          />
           <div class="wth-img-arc"></div>
         </div>
       </div>
       <div class="daily-wth" v-for="(item, i) in dailyWth" :key="i">
-        <Daily class="mr-10" :wthInfo="item"></Daily>
+        <Daily :wthInfo="item"></Daily>
       </div>
     </div>
   </div>
@@ -51,14 +55,14 @@ export default {
     locationThd() {
       return this.locations.df.region3depth;
     },
+    wthIcon() {
+      return this.wthInfo.df.current.weather[0].icon;
+    },
     wthTemp() {
       return this.wthInfo.df.current.temp;
     },
     wthPrecProb() {
       return this.wthInfo.df.daily[0].pop * 100;
-    },
-    wthIcon() {
-      return `http://openweathermap.org/img/wn/${this.wthInfo.df.current.weather[0].icon}@2x.png`;
     },
     description() {
       return this.wthInfo.df.current.weather[0].description;
@@ -68,12 +72,6 @@ export default {
       return wthInfo.splice(1);
     },
   },
-  data() {
-    return {
-      isShow: false,
-    };
-  },
-  methods: {},
   components: {
     Daily: () => import('@/components/main/WthCardDf/Daily.vue'),
   },
@@ -88,7 +86,7 @@ export default {
           };
           this.$http
             .get(
-              `https://api.openweathermap.org/data/2.5/onecall?lat=${latLon.lat}&lon=${latLon.lon}&exclude=hourly,minutely&units=metric&appid=${APP_KEY.openWth}&lang=kr`
+              `//api.openweathermap.org/data/2.5/onecall?lat=${latLon.lat}&lon=${latLon.lon}&exclude=hourly,minutely&units=metric&appid=${APP_KEY.openWth}&lang=kr`
             )
             .then((wthSrc) => {
               this.$store.commit('setWthInfo', wthSrc.data);
@@ -127,12 +125,16 @@ export default {
 
 <style lang="scss" scoped>
 .wth-card-df {
+  display: flex;
+  justify-content: center;
+  overflow-y: auto;
   background: rgba($color: #000, $alpha: 0.2);
   -webkit-backdrop-filter: blur(5px);
   backdrop-filter: blur(5px);
   .current-wth {
     border-right: 1px solid rgba($color: #fff, $alpha: 0.2);
     .wth-desc-wrap {
+      width: 168px;
       .day-of-week {
         display: inline-block;
         padding: 2px 14px 1px;
@@ -178,6 +180,21 @@ export default {
     }
   }
   .daily-wth {
+    margin-right: 40px;
+  }
+  .daily-wth:last-child {
+    margin-right: 0px;
+  }
+}
+@media only screen and (max-width: 1500px) {
+  .wth-card-df {
+    justify-content: start;
+    .inner {
+      margin-left: 40px;
+    }
+    .daily-wth:last-child {
+      margin-right: 40px;
+    }
   }
 }
 </style>
